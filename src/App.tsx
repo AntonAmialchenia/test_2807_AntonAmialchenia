@@ -2,45 +2,90 @@ import { FC, useState } from "react";
 
 import styles from "./App.module.css";
 
+type Segment = {
+  id: number;
+  body: string;
+  active: boolean;
+  delete: boolean;
+};
+
 const App: FC = () => {
   const [inputValue, setInputValue] = useState("");
-  const [block, setBlok] = useState<string[]>([]);
-  const [click, setClick] = useState(false);
+  const [block, setBlock] = useState<Segment[]>([]);
+  const [index, setIndex] = useState(1);
 
   const handelClick = () => {
-    const result = [];
-    for (let i = 0; i < Number(inputValue); i++) {
-      result.push(inputValue);
+    const newSegment: Segment = {
+      id: Date.now(),
+      body: String(index).repeat(Number(inputValue)),
+      active: false,
+      delete: false,
+    };
+
+    const lengthDeleteBlock = block.find((item) => item.delete)?.body.length;
+
+    console.log(newSegment);
+
+    if (lengthDeleteBlock) {
+      const newArr = block.map((item) => ({
+        ...item,
+        body: item.delete ? String(index).repeat(lengthDeleteBlock) : item.body,
+        delete: false,
+      }));
+      if (Number(inputValue) >= lengthDeleteBlock) {
+        newSegment.body = String(index).repeat(
+          Number(inputValue) - lengthDeleteBlock,
+        );
+
+        newArr.push(newSegment);
+      }
+
+      setBlock([...newArr]);
+    } else {
+      setBlock([...block, newSegment]);
     }
 
-    const newArr = [...block, result.join("")];
-
-    setBlok(newArr);
-
+    setIndex((prev) => prev + 1);
     setInputValue("");
   };
 
-  const handleDoubleClick = (index: number) => {
-    const result = block[index].split("").fill("_").join("");
+  const handleDoubleClick = (id: number) => {
+    const deleteArr = block.find((el) => el.delete);
+    console.log(deleteArr);
 
-    setBlok((prev) => prev.map((el, i) => (index === i ? result : el)));
+    const newArr = block.map((el) => ({
+      ...el,
+      body: el.id === id ? "_".repeat(el.body.length) : el.body,
+      delete: el.id === id,
+    }));
+    console.log(newArr);
+
+    setBlock([...newArr]);
   };
 
   return (
     <div>
       <h1>Test</h1>
       <div className={styles.block}>
-        {block?.map((el, index) => (
-          <span
-            className={
-              click ? [styles.span, styles.active].join(" ") : styles.span
-            }
-            onClick={() => setClick((prev) => !prev)}
-            onDoubleClick={() => handleDoubleClick(index)}
-            key={index}>
-            {el}
-          </span>
-        ))}
+        {block?.map((el) =>
+          el.body ? (
+            <span
+              className={
+                el.active ? [styles.span, styles.active].join(" ") : styles.span
+              }
+              onClick={() =>
+                setBlock((prev) =>
+                  prev.map((item) => ({ ...item, active: item.id === el.id })),
+                )
+              }
+              onDoubleClick={() => handleDoubleClick(el.id)}
+              key={el.id}>
+              {el.body ? el.body : null}
+            </span>
+          ) : (
+            <></>
+          ),
+        )}
       </div>
       <input
         value={inputValue}

@@ -9,8 +9,9 @@
 .span {
   border-left: 1px solid #000;
   border-right: 1px solid #000;
+  cursor: pointer;
 }
 
 .active {
-  background-color: #bc2e0a;
+  background-color: #ec9883;
 }
