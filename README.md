@@ -1,27 +1,33 @@
-# React + TypeScript + Vite
+Есть отрезок длиной например 100ед. И форма ввода, с полями: “длина блока” и кнопкой "сохранить".
+|**************************\_\_\_**************************|
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+На форме вводим размер блока,
+нажимаем сохранить и блок укладывается на отрезок.
+|[1111][22][3333333][4]****************\_****************|
 
-Currently, two official plugins are available:
+При одинарном клике на блок, он и все его части подсвечиваются.
+При двойном - удаляются, при этом остальные блоки остаются на своих местах.
+Редактирования нет.
+|[1111]**[3333333][4]****************\_******************| (удален блок 2)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Главное условие: блоки укладываются слева-направо, занимая все существующие
+пробелы. Т.е. после
+удаления блока 2, блок 5 длиной 6, ляжет фрагментами.
+|[1111][55][3333333][4][5555]************\_\_\_************|
 
-## Expanding the ESLint configuration
+Задача:
+Реализовать данный функционал и визуализировать его интерактивно на странице.
+Учесть возможные ошибки.
+Внешний вид и инструменты на свое усмотрение.
+Решение залить на гитхаб, проект назвать: test*2807*[ваши инициалы(ФИО)]
+Нам в ответ прислать ссылку на гитхаб и краткое текстовое описание реализованной логики.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Допы по желанию:
 
-- Configure the top-level `parserOptions` property like this:
+1. Добавить кнопку "упорядочить", которая делает блоки целыми.
+   |[1111][555555][3333333][4]**************\_**************|
+2. Расширить задачу до условия, что при вставке нового блока сначала ищется такое же по размеру место,
+   затем большего размера и если не находится, то уже тогда резать.
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+P.S.: блоки не обязаны содержать цифры как в примере, это для визуализации в текстовом документе.
+13:17
