@@ -1,0 +1,16 @@
+.block {
+  width: 500px;
+  height: 32px;
+  border: 1px solid #000;
+  margin-bottom: 15px;
+  font-size: 28px;
+}
+
+.span {
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+}
+
+.active {
+  background-color: #bc2e0a;
+}
